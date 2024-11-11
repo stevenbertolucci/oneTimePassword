@@ -77,6 +77,7 @@ def main():
             print("\033[92mAccess granted!\033[0m\n")
         else:
             while(1):
+                # Quote from The Elder Scrolls video game LOL
                 print("\033[91mStop right there criminal scum! Your otp code is incorrect.\033[0m")
 
                 # Ask user to verify the code
