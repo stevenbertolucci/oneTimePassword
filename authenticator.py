@@ -39,6 +39,7 @@ def generate_qr_code():
 
 # Function to get OTP code
 def get_otp():
+
     # 30 second intervals
     current_time = int(time.time() // 30)
 
@@ -56,7 +57,9 @@ def get_otp():
         )
 
     otp = binary % DIGITS_POWER[5]
-    return str(otp)
+
+    # If length of the otp is less than 6, fill in the missing digits with 0 on the left side
+    return str(otp).zfill(6)
 
 
 def main():
@@ -65,10 +68,10 @@ def main():
     if '--generate-qr' in sys.argv:
         generate_qr_code()
 
-        current_otp = get_otp()
         # Ask user to verify the code
         user_input = input("\nEnter the code: ")
 
+        current_otp = get_otp()
         # Verify the code
         if user_input == current_otp:
             print("\033[92mAccess granted!\033[0m\n")
@@ -76,10 +79,10 @@ def main():
             while(1):
                 print("\033[91mStop right there criminal scum! Your otp code is incorrect.\033[0m")
 
-                current_otp = get_otp()
-
                 # Ask user to verify the code
                 user_input = input("\nEnter the code: ")
+
+                current_otp = get_otp()
 
                 # Verify the code
                 if user_input == current_otp:
@@ -88,7 +91,10 @@ def main():
 
     # Listen for command --get-otp
     elif '--get-otp' in sys.argv:
-        print(get_otp())
+        print("\033[34mThis will display the OTP code every 30 seconds. Hit CRTL+C to exit.\033[0m")
+        while(1):
+            print(get_otp())
+            time.sleep(30)
 
     else:
         print("Missing additional command. Please use \033[93m`python authenticator.py --generate-qr`\033[0m or \033[93m`python authenticator.py --get-otp`\033[0m")
